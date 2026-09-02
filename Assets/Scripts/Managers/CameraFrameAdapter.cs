@@ -5,7 +5,6 @@ using UnityEngine;
 public class CameraFrameAdapter : MonoBehaviour
 {
     [SerializeField, Required] private Transform frame; // authored at local size 1x1 (-0.5..0.5), world scale = world size
-    [SerializeField] private float baseFieldOfView = 60f;
 
     private Camera _camera;
 
@@ -32,8 +31,6 @@ public class CameraFrameAdapter : MonoBehaviour
         float distance = Mathf.Abs(frame.position.z - _camera.transform.position.z);
 
         float requiredHalfHeight = Mathf.Max(halfHeight, halfWidth / _camera.aspect);
-        float requiredFov = 2f * Mathf.Atan(requiredHalfHeight / distance) * Mathf.Rad2Deg;
-
-        _camera.fieldOfView = Mathf.Max(requiredFov, baseFieldOfView);
+        _camera.fieldOfView = 2f * Mathf.Atan(requiredHalfHeight / distance) * Mathf.Rad2Deg;
     }
 }
