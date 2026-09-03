@@ -94,6 +94,7 @@ public class UIManager : MonoBehaviour
         {
             retryScreen.SetActive(false);
             GameManager.Instance.ResetGame();
+            GameManager.Instance.StartGame();
         });
     }
 
@@ -117,6 +118,7 @@ public class UIManager : MonoBehaviour
         {
             nextScreen.SetActive(false);
             GameManager.Instance.ResetGame();
+            GameManager.Instance.StartGame();
         });
     }
 

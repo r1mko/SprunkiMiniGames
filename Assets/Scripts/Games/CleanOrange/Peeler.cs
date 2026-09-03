@@ -18,19 +18,39 @@ public class Peeler : MonoBehaviour
     [SerializeField] private Vector2 eraseOffset;
 
     private bool _movingRight = true;
+    private Vector3 _initialLocalPosition;
+    private Coroutine _activeRoutine;
+
+    private void Awake()
+    {
+        _initialLocalPosition = transform.localPosition;
+    }
 
     public void StartSwinging()
     {
-        StartCoroutine(MainRoutine());
+        StopActiveRoutine();
+        SwitchTo(SwingRoutine());
     }
 
-    private IEnumerator MainRoutine()
+    public void ResetPeeler()
     {
-        while (true)
+        StopActiveRoutine();
+        transform.localPosition = _initialLocalPosition;
+        _movingRight = true;
+    }
+
+    private void StopActiveRoutine()
+    {
+        if (_activeRoutine != null)
         {
-            yield return SwingRoutine();
-            yield return CleanRoutine();
+            StopCoroutine(_activeRoutine);
+            _activeRoutine = null;
         }
+    }
+
+    private void SwitchTo(IEnumerator routine)
+    {
+        _activeRoutine = StartCoroutine(routine);
     }
 
     private IEnumerator SwingRoutine()
@@ -46,6 +66,7 @@ public class Peeler : MonoBehaviour
             {
                 if (WasPointerPressedThisFrame() && gameManager.CanClean)
                 {
+                    SwitchTo(CleanRoutine());
                     yield break;
                 }
 
@@ -70,6 +91,8 @@ public class Peeler : MonoBehaviour
         yield return MoveTo(topPosition, restPosition, erase: false);
 
         gameManager.OnPeelerCleaned();
+
+        SwitchTo(SwingRoutine());
     }
 
     private IEnumerator MoveTo(Vector3 from, Vector3 to, bool erase)

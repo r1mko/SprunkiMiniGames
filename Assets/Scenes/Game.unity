@@ -3403,6 +3403,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  fish:
+  - {fileID: 698269711}
+  - {fileID: 1571508737}
+  - {fileID: 1450441055}
+  - {fileID: 1399398208}
+  - {fileID: 1033448207}
+  - {fileID: 1939806624}
+  - {fileID: 88083458}
 --- !u!1 &1312323103
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,10 +20,11 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
     [SerializeField] private float skewerDuration = 0.2f;
     [SerializeField] private AnimationCurve skewerCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
+    [SerializeField, Required] private Fish[] fish;
+
     private Vector3 _restPosition;
     private Coroutine _strikeRoutine;
     private readonly List<Fish> _caughtFish = new List<Fish>();
-    private Fish[] _allFish;
     private int _nextSlotIndex;
     private int _pendingSkewers;
     private bool _hasStruck;
@@ -31,15 +32,6 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
     private void Awake()
     {
         _restPosition = harpoon.position;
-        _allFish = GetComponentsInChildren<Fish>(true);
-    }
-
-    private void Update()
-    {
-        if (WasPointerPressedThisFrame())
-        {
-            Strike();
-        }
     }
 
     private static bool WasPointerPressedThisFrame()
@@ -49,9 +41,24 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
 
     public void StartGame()
     {
-        foreach (Fish fish in _allFish)
+        foreach (Fish f in fish)
         {
-            fish.StartSwimming();
+            f.StartSwimming();
+        }
+
+        StartCoroutine(ListenForClickRoutine());
+    }
+
+    private IEnumerator ListenForClickRoutine()
+    {
+        while (!_hasStruck)
+        {
+            if (WasPointerPressedThisFrame())
+            {
+                Strike();
+            }
+
+            yield return null;
         }
     }
 

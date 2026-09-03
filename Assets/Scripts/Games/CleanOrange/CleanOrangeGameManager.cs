@@ -16,6 +16,11 @@ public class CleanOrangeGameManager : MonoBehaviour, IMiniGame
 
     public bool CanClean => !_hasFinished && _attemptsRemaining > 0;
 
+    private void OnDisable()
+    {
+        ResetGame();
+    }
+
     public void StartGame()
     {
         peeler.StartSwinging();
@@ -27,6 +32,7 @@ public class CleanOrangeGameManager : MonoBehaviour, IMiniGame
         _hasFinished = false;
         UpdateAttemptsImage();
         peelMask.ResetMask();
+        peeler.ResetPeeler();
     }
 
     public void CheckResult()

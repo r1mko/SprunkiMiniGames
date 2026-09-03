@@ -3,7 +3,6 @@ using UnityEngine;
 
 public enum MiniGameType
 {
-    None,
     Harpoon,
     CleanOrange,
 }

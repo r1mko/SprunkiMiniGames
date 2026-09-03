@@ -49,11 +49,16 @@ public class Fish : MonoBehaviour
 
     public void ReleaseFromHarpoon()
     {
+        if (_swimRoutine != null)
+        {
+            StopCoroutine(_swimRoutine);
+            _swimRoutine = null;
+        }
+
         transform.SetParent(_initialParent);
         transform.localPosition = _initialLocalPosition;
+        transform.localScale = new Vector3(_initialAbsScaleX, transform.localScale.y, transform.localScale.z);
         IsCaught = false;
-
-        StartSwimming();
     }
 
     private IEnumerator SwimRoutine()
