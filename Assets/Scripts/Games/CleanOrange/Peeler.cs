@@ -19,7 +19,7 @@ public class Peeler : MonoBehaviour
 
     private bool _movingRight = true;
 
-    private void Start()
+    public void StartSwinging()
     {
         StartCoroutine(MainRoutine());
     }

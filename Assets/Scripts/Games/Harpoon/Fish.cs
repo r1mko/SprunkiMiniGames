@@ -21,8 +21,18 @@ public class Fish : MonoBehaviour
         _initialAbsScaleX = Mathf.Abs(transform.localScale.x);
     }
 
-    private void Start()
+    private void OnDisable()
     {
+        _swimRoutine = null;
+    }
+
+    public void StartSwimming()
+    {
+        if (_swimRoutine != null || IsCaught)
+        {
+            return;
+        }
+
         _swimRoutine = StartCoroutine(SwimRoutine());
     }
 
@@ -43,7 +53,7 @@ public class Fish : MonoBehaviour
         transform.localPosition = _initialLocalPosition;
         IsCaught = false;
 
-        _swimRoutine = StartCoroutine(SwimRoutine());
+        StartSwimming();
     }
 
     private IEnumerator SwimRoutine()

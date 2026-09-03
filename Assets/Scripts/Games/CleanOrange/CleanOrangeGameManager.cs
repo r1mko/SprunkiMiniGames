@@ -6,6 +6,7 @@ public class CleanOrangeGameManager : MonoBehaviour, IMiniGame
 {
     public MiniGameType Type => MiniGameType.CleanOrange;
 
+    [SerializeField, Required] private Peeler peeler;
     [SerializeField, Required] private OrangePeelMask peelMask;
     [SerializeField, Required] private Image attemptsImage;
     [SerializeField] private int startingAttempts = 4;
@@ -17,6 +18,7 @@ public class CleanOrangeGameManager : MonoBehaviour, IMiniGame
 
     public void StartGame()
     {
+        peeler.StartSwinging();
     }
 
     public void ResetGame()

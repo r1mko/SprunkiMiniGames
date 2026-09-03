@@ -23,6 +23,7 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
     private Vector3 _restPosition;
     private Coroutine _strikeRoutine;
     private readonly List<Fish> _caughtFish = new List<Fish>();
+    private Fish[] _allFish;
     private int _nextSlotIndex;
     private int _pendingSkewers;
     private bool _hasStruck;
@@ -30,6 +31,7 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
     private void Awake()
     {
         _restPosition = harpoon.position;
+        _allFish = GetComponentsInChildren<Fish>(true);
     }
 
     private void Update()
@@ -47,7 +49,10 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
 
     public void StartGame()
     {
-        Strike();
+        foreach (Fish fish in _allFish)
+        {
+            fish.StartSwimming();
+        }
     }
 
     [Button("Reset", EButtonEnableMode.Playmode)]
@@ -116,8 +121,6 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
         yield return MoveHarpoon(_restPosition, target.position, downDuration, downCurve);
         yield return MoveHarpoon(target.position, _restPosition, upDuration, upCurve);
         yield return new WaitUntil(() => _pendingSkewers <= 0);
-
-        Debug.Log($"Caught fish: {_caughtFish.Count}/{skewerSlots.Length}");
 
         _strikeRoutine = null;
         CheckResult();

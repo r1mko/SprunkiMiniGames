@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +22,26 @@ public class UIManager : MonoBehaviour
     [SerializeField, Required] private Button nextButton;
     [SerializeField, Required] private Button nextScreenRetryButton;
 
+    [Header("Pop Animation")]
+    [SerializeField] private float popDuration = 0.25f;
+    [SerializeField] private AnimationCurve showScaleCurve = new AnimationCurve(
+        new Keyframe(0f, 0f),
+        new Keyframe(0.7f, 1.2f),
+        new Keyframe(1f, 1f));
+    [SerializeField] private float showRotationAngle = 25f;
+    [SerializeField] private AnimationCurve showRotationCurve = new AnimationCurve(
+        new Keyframe(0f, 0f),
+        new Keyframe(0.33f, -1f),
+        new Keyframe(0.66f, 1f),
+        new Keyframe(1f, 0f));
+
+    [Header("Curtain Transition")]
+    [SerializeField, Required] private Transform curtain;
+    [SerializeField] private float curtainTransitionDuration = 0.4f;
+    [SerializeField] private float curtainFullScaleY = 1f;
+
+    private Vector3 _curtainBaseScale;
+
     private int _retryTestIndex;
     private int _nextTestIndex;
 
@@ -36,6 +58,9 @@ public class UIManager : MonoBehaviour
 
         retryScreen.SetActive(false);
         nextScreen.SetActive(false);
+
+        _curtainBaseScale = curtain.localScale;
+        curtain.localScale = new Vector3(_curtainBaseScale.x, 0f, _curtainBaseScale.z);
 
         retryButton.onClick.AddListener(OnRetryClicked);
         skipButton.onClick.AddListener(OnSkipClicked);
@@ -54,19 +79,22 @@ public class UIManager : MonoBehaviour
     public void ShowRetryScreen()
     {
         retryImage.sprite = GetRandomSprite(retrySprites);
-        retryScreen.SetActive(true);
+        StartCoroutine(ShowScreenRoutine(retryScreen, retryImage.transform, new[] { retryButton.transform, skipButton.transform }));
     }
 
     public void ShowNextScreen()
     {
         nextImage.sprite = GetRandomSprite(nextSprites);
-        nextScreen.SetActive(true);
+        StartCoroutine(ShowScreenRoutine(nextScreen, nextImage.transform, new[] { nextButton.transform, nextScreenRetryButton.transform }));
     }
 
     private void OnRetryClicked()
     {
-        retryScreen.SetActive(false);
-        GameManager.Instance.ResetGame();
+        PlayCurtainTransition(() =>
+        {
+            retryScreen.SetActive(false);
+            GameManager.Instance.ResetGame();
+        });
     }
 
     private void OnSkipClicked()
@@ -76,13 +104,104 @@ public class UIManager : MonoBehaviour
 
     private void OnNextClicked()
     {
-        Debug.Log("Next button pressed");
+        PlayCurtainTransition(() =>
+        {
+            nextScreen.SetActive(false);
+            GameManager.Instance.NextGame();
+        });
     }
 
     private void OnNextScreenRetryClicked()
     {
-        nextScreen.SetActive(false);
-        GameManager.Instance.ResetGame();
+        PlayCurtainTransition(() =>
+        {
+            nextScreen.SetActive(false);
+            GameManager.Instance.ResetGame();
+        });
+    }
+
+    private IEnumerator ShowScreenRoutine(GameObject screen, Transform face, Transform[] buttons)
+    {
+        screen.SetActive(true);
+
+        foreach (Transform button in buttons)
+        {
+            button.gameObject.SetActive(false);
+        }
+
+        yield return ShowPop(face);
+
+        foreach (Transform button in buttons)
+        {
+            ShowPop(button);
+        }
+    }
+
+    private void PlayCurtainTransition(Action onCovered, Action onRevealed = null)
+    {
+        StartCoroutine(CurtainTransitionRoutine(onCovered, onRevealed));
+    }
+
+    private IEnumerator CurtainTransitionRoutine(Action onCovered, Action onRevealed)
+    {
+        float elapsed = 0f;
+
+        while (elapsed < curtainTransitionDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / curtainTransitionDuration);
+            Vector3 scale = curtain.localScale;
+            scale.y = Mathf.Lerp(0f, curtainFullScaleY, t);
+            curtain.localScale = scale;
+            yield return null;
+        }
+
+        curtain.localScale = new Vector3(_curtainBaseScale.x, curtainFullScaleY, _curtainBaseScale.z);
+
+        onCovered?.Invoke();
+
+        elapsed = 0f;
+
+        while (elapsed < curtainTransitionDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / curtainTransitionDuration);
+            Vector3 scale = curtain.localScale;
+            scale.y = Mathf.Lerp(curtainFullScaleY, 0f, t);
+            curtain.localScale = scale;
+            yield return null;
+        }
+
+        curtain.localScale = new Vector3(_curtainBaseScale.x, 0f, _curtainBaseScale.z);
+
+        onRevealed?.Invoke();
+    }
+
+    private Coroutine ShowPop(Transform target)
+    {
+        target.gameObject.SetActive(true);
+        return StartCoroutine(ShowPopRoutine(target));
+    }
+
+    private IEnumerator ShowPopRoutine(Transform target)
+    {
+        float elapsed = 0f;
+
+        while (elapsed < popDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / popDuration);
+            float scale = showScaleCurve.Evaluate(t);
+            float rotationZ = showRotationCurve.Evaluate(t) * showRotationAngle;
+
+            target.localScale = Vector3.one * scale;
+            target.localRotation = Quaternion.Euler(0f, 0f, rotationZ);
+
+            yield return null;
+        }
+
+        target.localScale = Vector3.one * showScaleCurve.Evaluate(1f);
+        target.localRotation = Quaternion.identity;
     }
 
     private static Sprite GetRandomSprite(Sprite[] sprites)
@@ -92,7 +211,7 @@ public class UIManager : MonoBehaviour
             return null;
         }
 
-        return sprites[Random.Range(0, sprites.Length)];
+        return sprites[UnityEngine.Random.Range(0, sprites.Length)];
     }
 
     [Button("Test Retry Image", EButtonEnableMode.Playmode)]

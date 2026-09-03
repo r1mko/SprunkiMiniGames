@@ -15,8 +15,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MiniGameType currentGameType = MiniGameType.Harpoon;
 
     private readonly Dictionary<MiniGameType, IMiniGame> _games = new Dictionary<MiniGameType, IMiniGame>();
+    private readonly List<IMiniGame> _orderedGames = new List<IMiniGame>();
+    private int _currentIndex;
 
-    private IMiniGame CurrentGame => _games.TryGetValue(currentGameType, out IMiniGame game) ? game : null;
+    private IMiniGame CurrentGame => _currentIndex >= 0 && _currentIndex < _orderedGames.Count ? _orderedGames[_currentIndex] : null;
 
     private void Awake()
     {
@@ -32,16 +34,15 @@ public class GameManager : MonoBehaviour
         foreach (IMiniGame game in GetComponentsInChildren<IMiniGame>(true))
         {
             _games[game.Type] = game;
+            _orderedGames.Add(game);
             ((MonoBehaviour)game).gameObject.SetActive(false);
         }
 
-        IMiniGame current = CurrentGame;
+        _currentIndex = _games.TryGetValue(currentGameType, out IMiniGame startGame)
+            ? _orderedGames.IndexOf(startGame)
+            : 0;
 
-        if (current != null)
-        {
-            ((MonoBehaviour)current).gameObject.SetActive(true);
-            current.ResetGame();
-        }
+        ActivateCurrentGame();
     }
 
     public void StartGame()
@@ -52,5 +53,38 @@ public class GameManager : MonoBehaviour
     public void ResetGame()
     {
         CurrentGame?.ResetGame();
+    }
+
+    public void NextGame()
+    {
+        IMiniGame current = CurrentGame;
+
+        if (current != null)
+        {
+            ((MonoBehaviour)current).gameObject.SetActive(false);
+        }
+
+        _currentIndex++;
+
+        if (_currentIndex >= _orderedGames.Count)
+        {
+            _currentIndex = 0;
+        }
+
+        ActivateCurrentGame();
+    }
+
+    private void ActivateCurrentGame()
+    {
+        IMiniGame game = CurrentGame;
+
+        if (game == null)
+        {
+            return;
+        }
+
+        ((MonoBehaviour)game).gameObject.SetActive(true);
+        game.ResetGame();
+        game.StartGame();
     }
 }
