@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class HarpoonGameManager : MonoBehaviour, IMiniGame
 {
+    public MiniGameType Type => MiniGameType.Harpoon;
+
     [SerializeField, Required] private Transform harpoon;
     [SerializeField, Required] private Transform target;
 
@@ -22,6 +24,8 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
     private Coroutine _strikeRoutine;
     private readonly List<Fish> _caughtFish = new List<Fish>();
     private int _nextSlotIndex;
+    private int _pendingSkewers;
+    private bool _hasStruck;
 
     private void Awake()
     {
@@ -51,6 +55,7 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
     {
         StopAllCoroutines();
         _strikeRoutine = null;
+        _hasStruck = false;
 
         harpoon.position = _restPosition;
 
@@ -61,6 +66,21 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
 
         _caughtFish.Clear();
         _nextSlotIndex = 0;
+        _pendingSkewers = 0;
+    }
+
+    public void CheckResult()
+    {
+        bool won = _caughtFish.Count >= skewerSlots.Length;
+
+        if (won)
+        {
+            UIManager.Instance.ShowNextScreen();
+        }
+        else
+        {
+            UIManager.Instance.ShowRetryScreen();
+        }
     }
 
     public void CatchFish(Fish fish)
@@ -74,8 +94,7 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
         Transform slot = skewerSlots[_nextSlotIndex];
         _nextSlotIndex++;
         _caughtFish.Add(fish);
-
-        Debug.Log($"Caught fish: {_caughtFish.Count}/{skewerSlots.Length}");
+        _pendingSkewers++;
 
         StartCoroutine(SkewerFish(fish, slot));
     }
@@ -83,11 +102,12 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
     [Button("Strike", EButtonEnableMode.Playmode)]
     private void Strike()
     {
-        if (_strikeRoutine != null)
+        if (_hasStruck)
         {
             return;
         }
 
+        _hasStruck = true;
         _strikeRoutine = StartCoroutine(StrikeRoutine());
     }
 
@@ -95,7 +115,12 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
     {
         yield return MoveHarpoon(_restPosition, target.position, downDuration, downCurve);
         yield return MoveHarpoon(target.position, _restPosition, upDuration, upCurve);
+        yield return new WaitUntil(() => _pendingSkewers <= 0);
+
+        Debug.Log($"Caught fish: {_caughtFish.Count}/{skewerSlots.Length}");
+
         _strikeRoutine = null;
+        CheckResult();
     }
 
     private IEnumerator MoveHarpoon(Vector3 from, Vector3 to, float duration, AnimationCurve curve)
@@ -127,5 +152,6 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
 
         fish.transform.SetParent(slot);
         fish.transform.localPosition = Vector3.zero;
+        _pendingSkewers--;
     }
 }
