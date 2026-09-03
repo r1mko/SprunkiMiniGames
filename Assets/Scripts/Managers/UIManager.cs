@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
     [SerializeField, Required] private Image nextImage;
     [SerializeField] private Sprite[] nextSprites;
     [SerializeField, Required] private Button nextButton;
+    [SerializeField, Required] private Button nextScreenRetryButton;
 
     private int _retryTestIndex;
     private int _nextTestIndex;
@@ -39,6 +40,7 @@ public class UIManager : MonoBehaviour
         retryButton.onClick.AddListener(OnRetryClicked);
         skipButton.onClick.AddListener(OnSkipClicked);
         nextButton.onClick.AddListener(OnNextClicked);
+        nextScreenRetryButton.onClick.AddListener(OnNextScreenRetryClicked);
     }
 
     private void OnDestroy()
@@ -46,6 +48,7 @@ public class UIManager : MonoBehaviour
         retryButton.onClick.RemoveListener(OnRetryClicked);
         skipButton.onClick.RemoveListener(OnSkipClicked);
         nextButton.onClick.RemoveListener(OnNextClicked);
+        nextScreenRetryButton.onClick.RemoveListener(OnNextScreenRetryClicked);
     }
 
     public void ShowRetryScreen()
@@ -74,6 +77,12 @@ public class UIManager : MonoBehaviour
     private void OnNextClicked()
     {
         Debug.Log("Next button pressed");
+    }
+
+    private void OnNextScreenRetryClicked()
+    {
+        nextScreen.SetActive(false);
+        GameManager.Instance.ResetGame();
     }
 
     private static Sprite GetRandomSprite(Sprite[] sprites)
