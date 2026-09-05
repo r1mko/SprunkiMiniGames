@@ -78,18 +78,30 @@ public class UIManager : MonoBehaviour
 
     public void ShowRetryScreen()
     {
+        SetScreenButtonsInteractable(true);
         retryImage.sprite = GetRandomSprite(retrySprites);
         StartCoroutine(ShowScreenRoutine(retryScreen, retryImage.transform, new[] { retryButton.transform, skipButton.transform }));
     }
 
     public void ShowNextScreen()
     {
+        SetScreenButtonsInteractable(true);
         nextImage.sprite = GetRandomSprite(nextSprites);
         StartCoroutine(ShowScreenRoutine(nextScreen, nextImage.transform, new[] { nextButton.transform, nextScreenRetryButton.transform }));
     }
 
+    private void SetScreenButtonsInteractable(bool interactable)
+    {
+        retryButton.interactable = interactable;
+        skipButton.interactable = interactable;
+        nextButton.interactable = interactable;
+        nextScreenRetryButton.interactable = interactable;
+    }
+
     private void OnRetryClicked()
     {
+        SetScreenButtonsInteractable(false);
+
         PlayCurtainTransition(() =>
         {
             retryScreen.SetActive(false);
@@ -100,11 +112,14 @@ public class UIManager : MonoBehaviour
 
     private void OnSkipClicked()
     {
+        SetScreenButtonsInteractable(false);
         Debug.Log("Skip button pressed");
     }
 
     private void OnNextClicked()
     {
+        SetScreenButtonsInteractable(false);
+
         PlayCurtainTransition(() =>
         {
             nextScreen.SetActive(false);
@@ -114,6 +129,8 @@ public class UIManager : MonoBehaviour
 
     private void OnNextScreenRetryClicked()
     {
+        SetScreenButtonsInteractable(false);
+
         PlayCurtainTransition(() =>
         {
             nextScreen.SetActive(false);

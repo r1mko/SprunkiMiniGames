@@ -6,6 +6,7 @@ public enum MiniGameType
     Harpoon,
     CleanOrange,
     PopBalloon,
+    KnockIce,
 }
 
 public class GameManager : MonoBehaviour
