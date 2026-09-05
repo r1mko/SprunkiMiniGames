@@ -168,7 +168,6 @@ public class OrangePeelMask : MonoBehaviour
         if (_erasedCount >= _erasedCells.Length * completionThreshold)
         {
             IsFullyCleaned = true;
-            Debug.Log("OrangePeel: fully cleaned!");
         }
     }
 

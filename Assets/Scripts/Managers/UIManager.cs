@@ -112,7 +112,7 @@ public class UIManager : MonoBehaviour
 
     private void OnSkipClicked()
     {
-        SetScreenButtonsInteractable(false);
+        //SetScreenButtonsInteractable(false);
         Debug.Log("Skip button pressed");
     }
 

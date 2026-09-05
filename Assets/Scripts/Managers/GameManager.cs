@@ -7,6 +7,7 @@ public enum MiniGameType
     CleanOrange,
     PopBalloon,
     KnockIce,
+    CatchEggs,
 }
 
 public class GameManager : MonoBehaviour
@@ -36,12 +37,19 @@ public class GameManager : MonoBehaviour
         {
             _games[game.Type] = game;
             _orderedGames.Add(game);
-            ((MonoBehaviour)game).gameObject.SetActive(false);
         }
 
         _currentIndex = _games.TryGetValue(currentGameType, out IMiniGame startGame)
             ? _orderedGames.IndexOf(startGame)
             : 0;
+    }
+
+    private void Start()
+    {
+        foreach (IMiniGame game in _orderedGames)
+        {
+            ((MonoBehaviour)game).gameObject.SetActive(false);
+        }
 
         ActivateCurrentGame();
     }
