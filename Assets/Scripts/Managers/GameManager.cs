@@ -8,6 +8,8 @@ public enum MiniGameType
     PopBalloon,
     KnockIce,
     CatchEggs,
+    HammerNail,
+    Bowling,
 }
 
 public class GameManager : MonoBehaviour
