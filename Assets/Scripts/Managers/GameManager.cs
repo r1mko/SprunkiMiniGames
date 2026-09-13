@@ -10,6 +10,7 @@ public enum MiniGameType
     CatchEggs,
     HammerNail,
     Bowling,
+    CutHalf,
 }
 
 public class GameManager : MonoBehaviour
