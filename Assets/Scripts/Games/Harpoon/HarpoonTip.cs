@@ -8,7 +8,7 @@ public class HarpoonTip : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent(out Fish fish))
+        if (gameManager.CanCatch && other.TryGetComponent(out Fish fish))
         {
             gameManager.CatchFish(fish);
         }

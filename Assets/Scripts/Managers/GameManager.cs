@@ -12,6 +12,7 @@ public enum MiniGameType
     Bowling,
     CutHalf,
     RemoveItems,
+    KillMosquito,
 }
 
 public class GameManager : MonoBehaviour

@@ -28,6 +28,9 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
     private int _nextSlotIndex;
     private int _pendingSkewers;
     private bool _hasStruck;
+    private bool _canCatch;
+
+    public bool CanCatch => _canCatch;
 
     private void Awake()
     {
@@ -68,6 +71,7 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
         StopAllCoroutines();
         _strikeRoutine = null;
         _hasStruck = false;
+        _canCatch = false;
 
         harpoon.position = _restPosition;
 
@@ -125,7 +129,9 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
 
     private IEnumerator StrikeRoutine()
     {
+        _canCatch = true;
         yield return MoveHarpoon(_restPosition, target.position, downDuration, downCurve);
+        _canCatch = false;
         yield return MoveHarpoon(target.position, _restPosition, upDuration, upCurve);
         yield return new WaitUntil(() => _pendingSkewers <= 0);
 
