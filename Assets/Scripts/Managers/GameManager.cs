@@ -11,6 +11,7 @@ public enum MiniGameType
     HammerNail,
     Bowling,
     CutHalf,
+    RemoveItems,
 }
 
 public class GameManager : MonoBehaviour
