@@ -43,12 +43,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 400
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
@@ -121,7 +121,53 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: "\u041B\u043E\u043F\u043D\u0443\u0432\u0448\u0438\u0435 \u0448\u0430\u0440\u0438\u043A\u0438
+        (2)_0"
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 0
+        width: 897
+        height: 887
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf279fd55a5e770459234b593715da66
+      internalID: 1565194600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\u041B\u043E\u043F\u043D\u0443\u0432\u0448\u0438\u0435 \u0448\u0430\u0440\u0438\u043A\u0438
+        (2)_1"
+      rect:
+        serializedVersion: 2
+        x: 899
+        y: 0
+        width: 875
+        height: 887
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 453bd489607fe644a919c40a37fc116b
+      internalID: -1474593357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -134,8 +180,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":1.0},"gridSpriteSize":{"x":887.0,"y":887.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      "\u041B\u043E\u043F\u043D\u0443\u0432\u0448\u0438\u0435 \u0448\u0430\u0440\u0438\u043A\u0438 (2)_0": 1565194600
+      "\u041B\u043E\u043F\u043D\u0443\u0432\u0448\u0438\u0435 \u0448\u0430\u0440\u0438\u043A\u0438 (2)_1": -1474593357
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

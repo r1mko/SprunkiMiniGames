@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cfef2b88ec352f1468773a5d17a7d3fc
+guid: 7269c6632a4061341b3cce16db79f6ae
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,9 +43,9 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 400
@@ -121,51 +121,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: "\u0428\u0430\u0440\u0438\u043A\u0438 (2)_0"
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 889
-        height: 887
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fdbd40549cf8fcc46a435f81c98c0940
-      internalID: -380625416
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "\u0428\u0430\u0440\u0438\u043A\u0438 (2)_1"
-      rect:
-        serializedVersion: 2
-        x: 894
-        y: 0
-        width: 880
-        height: 887
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e3ea23d6fbfb3324b95ce7021809907d
-      internalID: 1782563783
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     customData: 
     physicsShape: []
@@ -178,12 +134,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":1.0},"gridSpriteSize":{"x":887.0,"y":887.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
-    nameFileIdTable:
-      "\u0428\u0430\u0440\u0438\u043A\u0438 (2)_0": -380625416
-      "\u0428\u0430\u0440\u0438\u043A\u0438 (2)_1": 1782563783
+      entries: []
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
