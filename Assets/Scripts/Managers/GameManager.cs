@@ -13,6 +13,7 @@ public enum MiniGameType
     CutHalf,
     RemoveItems,
     KillMosquito,
+    TableComputer,
 }
 
 public class GameManager : MonoBehaviour
