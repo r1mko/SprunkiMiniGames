@@ -15,6 +15,7 @@ public enum MiniGameType
     KillMosquito,
     TableComputer,
     ShootBalloons,
+    BreakBottles,
 }
 
 public class GameManager : MonoBehaviour

@@ -17,6 +17,7 @@ public class ShootBalloonsGameManager : MonoBehaviour, IMiniGame
 
     private int _currentNeedleIndex;
     private int _attemptsRemaining;
+    private int _finishedNeedles;
     private bool _hasFinished;
     private bool _isBusy;
     private bool _won;
@@ -73,6 +74,7 @@ public class ShootBalloonsGameManager : MonoBehaviour, IMiniGame
 
         _currentNeedleIndex = 0;
         _attemptsRemaining = needles.Length;
+        _finishedNeedles = 0;
         _hasFinished = false;
         _isBusy = false;
         _won = false;
@@ -112,6 +114,11 @@ public class ShootBalloonsGameManager : MonoBehaviour, IMiniGame
         UpdateAttemptsImage();
 
         needles[_currentNeedleIndex].Launch();
+
+        if (_attemptsRemaining > 0)
+        {
+            StartCoroutine(NextNeedleRoutine());
+        }
     }
 
     private void OnNeedleFinished(ShootNeedle needle)
@@ -121,19 +128,18 @@ public class ShootBalloonsGameManager : MonoBehaviour, IMiniGame
             return;
         }
 
+        _finishedNeedles++;
+
         if (AreAllBalloonsPopped())
         {
             FinishGame(true);
             return;
         }
 
-        if (_attemptsRemaining <= 0)
+        if (_finishedNeedles >= needles.Length)
         {
             FinishGame(false);
-            return;
         }
-
-        StartCoroutine(NextNeedleRoutine());
     }
 
     private IEnumerator NextNeedleRoutine()
