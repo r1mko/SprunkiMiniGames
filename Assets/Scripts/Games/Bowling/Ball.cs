@@ -1,7 +1,6 @@
 using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Ball : MonoBehaviour
@@ -94,7 +93,7 @@ public class Ball : MonoBehaviour
 
             while (Mathf.Abs(transform.localPosition.x - targetX) > 0.01f)
             {
-                if (WasPointerPressedThisFrame() && gameManager.CanThrow)
+                if (PointerInput.WasPressedThisFrame() && gameManager.CanThrow)
                 {
                     Launch();
                     yield break;
@@ -147,10 +146,5 @@ public class Ball : MonoBehaviour
         {
             gameManager.OnThrowResolved();
         }
-    }
-
-    private static bool WasPointerPressedThisFrame()
-    {
-        return Pointer.current != null && Pointer.current.press.wasPressedThisFrame;
     }
 }

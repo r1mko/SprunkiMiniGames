@@ -1,7 +1,6 @@
 using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Knife : MonoBehaviour
 {
@@ -62,7 +61,7 @@ public class Knife : MonoBehaviour
 
             while (Mathf.Abs(transform.localPosition.x - targetX) > 0.01f)
             {
-                if (WasPointerPressedThisFrame() && gameManager.CanCut)
+                if (PointerInput.WasPressedThisFrame() && gameManager.CanCut)
                 {
                     SwitchTo(CutRoutine());
                     yield break;
@@ -105,10 +104,5 @@ public class Knife : MonoBehaviour
         }
 
         transform.position = to;
-    }
-
-    private static bool WasPointerPressedThisFrame()
-    {
-        return Pointer.current != null && Pointer.current.press.wasPressedThisFrame;
     }
 }

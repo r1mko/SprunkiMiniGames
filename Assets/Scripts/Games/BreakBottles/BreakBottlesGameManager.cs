@@ -1,7 +1,6 @@
 using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class BreakBottlesGameManager : MonoBehaviour, IMiniGame
@@ -73,7 +72,7 @@ public class BreakBottlesGameManager : MonoBehaviour, IMiniGame
     {
         while (!_hasFinished)
         {
-            if (_hitsRemaining > 0 && hammer.IsReady && WasPointerPressedThisFrame())
+            if (_hitsRemaining > 0 && hammer.IsReady && PointerInput.WasPressedThisFrame())
             {
                 Strike();
             }
@@ -144,10 +143,5 @@ public class BreakBottlesGameManager : MonoBehaviour, IMiniGame
     private void UpdateHitsImage()
     {
         hitsImage.sprite = DigitImageHelper.Instance.GetDigitSprite(_hitsRemaining);
-    }
-
-    private static bool WasPointerPressedThisFrame()
-    {
-        return Pointer.current != null && Pointer.current.press.wasPressedThisFrame;
     }
 }

@@ -11,6 +11,7 @@ public class Fish : MonoBehaviour
 
     private Transform _initialParent;
     private Vector3 _initialLocalPosition;
+    private Vector3 _initialLocalScale;
     private float _initialAbsScaleX;
     private Coroutine _swimRoutine;
 
@@ -18,6 +19,7 @@ public class Fish : MonoBehaviour
     {
         _initialParent = transform.parent;
         _initialLocalPosition = transform.localPosition;
+        _initialLocalScale = transform.localScale;
         _initialAbsScaleX = Mathf.Abs(transform.localScale.x);
     }
 
@@ -47,7 +49,7 @@ public class Fish : MonoBehaviour
         }
     }
 
-    public void ReleaseFromHarpoon()
+    public void ResetFish()
     {
         if (_swimRoutine != null)
         {
@@ -57,7 +59,7 @@ public class Fish : MonoBehaviour
 
         transform.SetParent(_initialParent);
         transform.localPosition = _initialLocalPosition;
-        transform.localScale = new Vector3(_initialAbsScaleX, transform.localScale.y, transform.localScale.z);
+        transform.localScale = _initialLocalScale;
         IsCaught = false;
     }
 

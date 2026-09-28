@@ -1,7 +1,6 @@
 using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class ShootBalloonsGameManager : MonoBehaviour, IMiniGame
@@ -98,7 +97,7 @@ public class ShootBalloonsGameManager : MonoBehaviour, IMiniGame
     {
         while (!_hasFinished)
         {
-            if (!_isBusy && WasPointerPressedThisFrame())
+            if (!_isBusy && PointerInput.WasPressedThisFrame())
             {
                 Throw();
             }
@@ -176,10 +175,5 @@ public class ShootBalloonsGameManager : MonoBehaviour, IMiniGame
     private void UpdateAttemptsImage()
     {
         attemptsImage.sprite = DigitImageHelper.Instance.GetDigitSprite(_attemptsRemaining);
-    }
-
-    private static bool WasPointerPressedThisFrame()
-    {
-        return Pointer.current != null && Pointer.current.press.wasPressedThisFrame;
     }
 }

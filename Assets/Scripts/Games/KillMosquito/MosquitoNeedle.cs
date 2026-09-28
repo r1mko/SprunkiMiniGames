@@ -1,7 +1,6 @@
 using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
@@ -51,7 +50,7 @@ public class MosquitoNeedle : MonoBehaviour
     {
         while (true)
         {
-            if (WasPointerPressedThisFrame() && gameManager.CanStab)
+            if (PointerInput.WasPressedThisFrame() && gameManager.CanStab)
             {
                 SwitchTo(StabRoutine());
                 yield break;
@@ -85,10 +84,5 @@ public class MosquitoNeedle : MonoBehaviour
         }
 
         transform.position = to;
-    }
-
-    private static bool WasPointerPressedThisFrame()
-    {
-        return Pointer.current != null && Pointer.current.press.wasPressedThisFrame;
     }
 }

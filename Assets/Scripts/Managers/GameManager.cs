@@ -16,6 +16,8 @@ public enum MiniGameType
     TableComputer,
     ShootBalloons,
     BreakBottles,
+    RememberCode,
+    CarCircle,
 }
 
 public class GameManager : MonoBehaviour

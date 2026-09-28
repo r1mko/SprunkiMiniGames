@@ -15,8 +15,6 @@ public class BreakableBottle : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log($"[BreakableBottle] {name}: trigger enter from '{other.name}' (tag '{other.tag}'), broken={IsBroken}, expected tag '{obstacleTag}'", this);
-
         if (!IsBroken && other.CompareTag(obstacleTag))
         {
             Break();
@@ -49,7 +47,6 @@ public class BreakableBottle : MonoBehaviour
     private void Break()
     {
         IsBroken = true;
-        Debug.Log($"[BreakableBottle] {name}: broken", this);
         gameObject.SetActive(false);
         brokenBottle.SetActive(true);
     }

@@ -1,7 +1,6 @@
 using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Peeler : MonoBehaviour
 {
@@ -64,7 +63,7 @@ public class Peeler : MonoBehaviour
 
             while (Mathf.Abs(transform.localPosition.x - targetX) > 0.01f)
             {
-                if (WasPointerPressedThisFrame() && gameManager.CanClean)
+                if (PointerInput.WasPressedThisFrame() && gameManager.CanClean)
                 {
                     SwitchTo(CleanRoutine());
                     yield break;
@@ -124,11 +123,6 @@ public class Peeler : MonoBehaviour
     private Vector3 ErasePosition()
     {
         return transform.position + (Vector3)eraseOffset;
-    }
-
-    private static bool WasPointerPressedThisFrame()
-    {
-        return Pointer.current != null && Pointer.current.press.wasPressedThisFrame;
     }
 
     private void OnDrawGizmos()

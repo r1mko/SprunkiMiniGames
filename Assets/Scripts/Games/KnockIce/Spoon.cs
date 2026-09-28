@@ -1,7 +1,6 @@
 using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Spoon : MonoBehaviour
@@ -63,7 +62,7 @@ public class Spoon : MonoBehaviour
 
             while (Mathf.Abs(transform.localPosition.y - targetY) > 0.01f)
             {
-                if (WasPointerPressedThisFrame() && gameManager.CanKnock)
+                if (PointerInput.WasPressedThisFrame() && gameManager.CanKnock)
                 {
                     SwitchTo(KnockRoutine());
                     yield break;
@@ -107,10 +106,5 @@ public class Spoon : MonoBehaviour
         }
 
         transform.position = to;
-    }
-
-    private static bool WasPointerPressedThisFrame()
-    {
-        return Pointer.current != null && Pointer.current.press.wasPressedThisFrame;
     }
 }

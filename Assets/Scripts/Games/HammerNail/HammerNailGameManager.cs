@@ -1,7 +1,6 @@
 using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class HammerNailGameManager : MonoBehaviour, IMiniGame
@@ -130,7 +129,7 @@ public class HammerNailGameManager : MonoBehaviour, IMiniGame
         while (!_hasFinished)
         {
             if (_currentNailIndex < nails.Length
-                && WasPointerPressedThisFrame()
+                && PointerInput.WasPressedThisFrame()
                 && !nails[_currentNailIndex].IsFlying)
             {
                 nails[_currentNailIndex].Launch();
@@ -154,10 +153,5 @@ public class HammerNailGameManager : MonoBehaviour, IMiniGame
         }
 
         onesDigitImage.sprite = DigitImageHelper.Instance.GetDigitSprite(ones);
-    }
-
-    private static bool WasPointerPressedThisFrame()
-    {
-        return Pointer.current != null && Pointer.current.press.wasPressedThisFrame;
     }
 }

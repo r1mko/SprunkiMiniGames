@@ -1,7 +1,6 @@
 using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class PopBalloonGameManager : MonoBehaviour, IMiniGame
@@ -114,7 +113,7 @@ public class PopBalloonGameManager : MonoBehaviour, IMiniGame
     {
         while (!_hasFinished)
         {
-            if (!_isBusy && WasPointerPressedThisFrame())
+            if (!_isBusy && PointerInput.WasPressedThisFrame())
             {
                 Throw();
             }
@@ -177,10 +176,5 @@ public class PopBalloonGameManager : MonoBehaviour, IMiniGame
     private void UpdateAttemptsImage()
     {
         attemptsImage.sprite = DigitImageHelper.Instance.GetDigitSprite(_attemptsRemaining);
-    }
-
-    private static bool WasPointerPressedThisFrame()
-    {
-        return Pointer.current != null && Pointer.current.press.wasPressedThisFrame;
     }
 }

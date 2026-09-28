@@ -24,8 +24,19 @@ public class BottleHammer : MonoBehaviour
 
     public event Action StrikeFinished;
 
-    public bool IsReady => _animationRoutine == null;
-    public bool IsHitColliderActive => _hitColliderRoutine != null;
+    public bool IsReady => !_isSwinging;
+    public bool IsHitColliderActive => _isHitColliderActive;
+
+    private bool _isSwinging;
+    private bool _isHitColliderActive;
+
+    private void OnDisable()
+    {
+        _isSwinging = false;
+        _isHitColliderActive = false;
+        _animationRoutine = null;
+        _hitColliderRoutine = null;
+    }
 
     public void Strike()
     {
@@ -35,6 +46,7 @@ public class BottleHammer : MonoBehaviour
         }
 
         EnsureInitialized();
+        _isSwinging = true;
         _animationRoutine = StartCoroutine(AnimationRoutine());
     }
 
@@ -43,6 +55,8 @@ public class BottleHammer : MonoBehaviour
         EnsureInitialized();
         StopRoutine(ref _animationRoutine);
         StopRoutine(ref _hitColliderRoutine);
+        _isSwinging = false;
+        _isHitColliderActive = false;
         hitCollider.enabled = false;
         transform.localRotation = _initialLocalRotation;
     }
@@ -77,23 +91,25 @@ public class BottleHammer : MonoBehaviour
         _hitColliderRoutine = StartCoroutine(HitColliderRoutine());
 
         yield return new WaitForSeconds(holdDuration);
+
         yield return RotateRoutine(targetRotation, _initialLocalRotation, returnDuration);
 
         _animationRoutine = null;
+        _isSwinging = false;
         StrikeFinished?.Invoke();
     }
 
     private IEnumerator HitColliderRoutine()
     {
+        _isHitColliderActive = true;
         hitCollider.enabled = true;
-        Debug.Log($"[BottleHammer] {name}: hit collider '{hitCollider.name}' ON (tag '{hitCollider.tag}', isTrigger={hitCollider.isTrigger}, hasRigidbody={hitCollider.attachedRigidbody != null})", this);
 
         yield return new WaitForSeconds(hitColliderDuration);
 
         hitCollider.enabled = false;
-        Debug.Log($"[BottleHammer] {name}: hit collider OFF", this);
 
         _hitColliderRoutine = null;
+        _isHitColliderActive = false;
     }
 
     private IEnumerator RotateRoutine(Quaternion from, Quaternion to, float duration)

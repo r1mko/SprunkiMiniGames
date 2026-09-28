@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class HarpoonGameManager : MonoBehaviour, IMiniGame
 {
@@ -37,11 +36,6 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
         _restPosition = harpoon.position;
     }
 
-    private static bool WasPointerPressedThisFrame()
-    {
-        return Pointer.current != null && Pointer.current.press.wasPressedThisFrame;
-    }
-
     public void StartGame()
     {
         foreach (Fish f in fish)
@@ -56,7 +50,7 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
     {
         while (!_hasStruck)
         {
-            if (WasPointerPressedThisFrame())
+            if (PointerInput.WasPressedThisFrame())
             {
                 Strike();
             }
@@ -75,9 +69,9 @@ public class HarpoonGameManager : MonoBehaviour, IMiniGame
 
         harpoon.position = _restPosition;
 
-        foreach (Fish fish in _caughtFish)
+        foreach (Fish f in fish)
         {
-            fish.ReleaseFromHarpoon();
+            f.ResetFish();
         }
 
         _caughtFish.Clear();

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class CatchEggsGameManager : MonoBehaviour, IMiniGame
@@ -109,7 +108,7 @@ public class CatchEggsGameManager : MonoBehaviour, IMiniGame
     {
         while (_clicksRemaining > 0)
         {
-            if (WasPointerPressedThisFrame())
+            if (PointerInput.WasPressedThisFrame())
             {
                 OnClicked();
             }
@@ -234,10 +233,5 @@ public class CatchEggsGameManager : MonoBehaviour, IMiniGame
     private void UpdateAttemptsImage()
     {
         attemptsImage.sprite = DigitImageHelper.Instance.GetDigitSprite(_clicksRemaining);
-    }
-
-    private static bool WasPointerPressedThisFrame()
-    {
-        return Pointer.current != null && Pointer.current.press.wasPressedThisFrame;
     }
 }

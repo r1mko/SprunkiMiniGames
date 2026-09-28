@@ -9,6 +9,7 @@ TagManager:
   - Nail
   - Log
   - Ball
+  - Car
   layers:
   - Default
   - TransparentFX

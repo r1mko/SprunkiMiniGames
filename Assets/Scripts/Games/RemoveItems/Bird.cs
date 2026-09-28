@@ -1,7 +1,6 @@
 using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Bird : MonoBehaviour
@@ -75,7 +74,7 @@ public class Bird : MonoBehaviour
 
             while (Mathf.Abs(transform.localPosition.x - targetX) > 0.01f)
             {
-                if (WasPointerPressedThisFrame() && gameManager.CanPeck)
+                if (PointerInput.WasPressedThisFrame() && gameManager.CanPeck)
                 {
                     SwitchTo(PeckRoutine());
                     yield break;
@@ -119,10 +118,5 @@ public class Bird : MonoBehaviour
         }
 
         transform.position = to;
-    }
-
-    private static bool WasPointerPressedThisFrame()
-    {
-        return Pointer.current != null && Pointer.current.press.wasPressedThisFrame;
     }
 }

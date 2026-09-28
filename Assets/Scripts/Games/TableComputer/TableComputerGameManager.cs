@@ -1,7 +1,6 @@
 using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class TableComputerGameManager : MonoBehaviour, IMiniGame
@@ -93,7 +92,7 @@ public class TableComputerGameManager : MonoBehaviour, IMiniGame
     {
         while (_throwsRemaining > 0)
         {
-            if (WasPointerPressedThisFrame())
+            if (PointerInput.WasPressedThisFrame())
             {
                 yield return ChargeAndLaunchRoutine();
             }
@@ -111,7 +110,7 @@ public class TableComputerGameManager : MonoBehaviour, IMiniGame
 
         while (elapsed < chargeDuration)
         {
-            if (WasPointerReleasedThisFrame())
+            if (PointerInput.WasReleasedThisFrame())
             {
                 break;
             }
@@ -223,15 +222,5 @@ public class TableComputerGameManager : MonoBehaviour, IMiniGame
     private void UpdatePowerBar(float fraction)
     {
         powerBarImage.fillAmount = Mathf.Clamp01(fraction);
-    }
-
-    private static bool WasPointerPressedThisFrame()
-    {
-        return Pointer.current != null && Pointer.current.press.wasPressedThisFrame;
-    }
-
-    private static bool WasPointerReleasedThisFrame()
-    {
-        return Pointer.current != null && Pointer.current.press.wasReleasedThisFrame;
     }
 }
