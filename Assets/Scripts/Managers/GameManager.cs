@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public enum MiniGameType
@@ -19,6 +19,7 @@ public enum MiniGameType
     RememberCode,
     CarCircle,
     MakeHappy,
+    PunchWood,
 }
 
 public class GameManager : MonoBehaviour
