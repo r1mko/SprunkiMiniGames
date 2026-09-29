@@ -18,6 +18,7 @@ public enum MiniGameType
     BreakBottles,
     RememberCode,
     CarCircle,
+    MakeHappy,
 }
 
 public class GameManager : MonoBehaviour
