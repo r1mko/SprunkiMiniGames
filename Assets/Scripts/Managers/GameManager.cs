@@ -20,6 +20,7 @@ public enum MiniGameType
     CarCircle,
     MakeHappy,
     PunchWood,
+    PullNails,
 }
 
 public class GameManager : MonoBehaviour
